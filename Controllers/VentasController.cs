@@ -61,9 +61,7 @@ namespace ProyectoVentas.Controllers
          [HttpGet]
         public IActionResult Create()
         {   
-            ViewBag.Articulos = Catalogos.Articulos;
-            ViewBag.Facebooks = Catalogos.Facebooks;
-            ViewBag.Ubicaciones = Catalogos.Ubicaciones;
+        CargarCatalogos();
             return View();
         }
 
