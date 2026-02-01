@@ -1,0 +1,140 @@
+@model ProyectoVentas.Models.Venta
+
+<h1>Registrar Venta</h1>
+
+<form asp-action="Create" method="post">
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+   @Html.AntiForgeryToken()
+
+
+
+
+    <div class="mb-3">
+    <label class="form-label">Artículo</label>
+    <select asp-for="Articulo" class="form-select">
+    <span asp-validation-for="Articulo" class="text-danger"></span>
+        <option value="">Seleccione un artículo</option>
+
+        @foreach (dynamic articulo in ViewBag.Articulos)
+        {
+            <option value="@articulo">@articulo</option>
+        }
+    </select>
+    </div>
+
+
+
+    <div class="mb-3">
+        <label class="form-label">Fecha de Venta</label>
+        <input asp-for="FechaVenta" type="date" class="form-control" />
+        <span asp-validation-for="FechaVenta" class="text-danger"></span>
+    </div>
+
+
+
+
+    <div class="mb-3">
+        <label class="form-label">Cuenta Facebook</label>
+        <select asp-for="Facebook" class="form-select">
+        <span asp-validation-for="Facebook" class="text-danger"></span>
+        <option value="">Seleccione cuenta o clon de Facebook</option>
+
+        @foreach (var facebook in ViewBag.Facebooks)
+        {
+            <option value="@facebook">@facebook</option>
+        }
+        </select>
+    </div>
+
+
+
+
+
+    <div class="mb-3">
+        <label class="form-label">Precio de Venta</label>
+        <input asp-for="PrecioVenta" class="form-control" />
+         <span asp-validation-for="PrecioVenta" class="text-danger"></span>
+    </div>
+
+
+
+
+
+    <div class="mb-3">
+        <label class="form-label">Inversión</label>
+        <input asp-for="Inversion" class="form-control" />
+        <span asp-validation-for="Inversion" class="text-danger"></span>
+    </div>
+
+
+
+
+
+   <div class="mb-3">
+    <label class="form-label">Ubicación</label>
+    <select asp-for="Ubicacion"
+            class="form-select"
+            id="ubicacionSelect">
+            <span asp-validation-for="Ubicacion" class="text-danger"></span>
+        <option value="">Seleccione una ubicación</option>
+
+        @foreach (var u in ViewBag.Ubicaciones)
+        {
+            <option value="@u">@u</option>
+        }
+        <option value="OTRA">Otra...</option>
+    </select>
+
+    <input type="text"
+           id="ubicacionManual"
+           class="form-control mt-2 d-none"
+           placeholder="Escriba otra ubicación" />
+</div>
+
+
+
+
+
+
+    <div class="mb-3">
+        <label class="form-label">Cliente</label>
+        <input asp-for="Cliente" class="form-control" />
+         <span asp-validation-for="Cliente" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Comentario</label>
+        <textarea asp-for="Comentario" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Venta</button>
+
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+
+
+
+<script>
+    const selectUbicacion = document.getElementById("ubicacionSelect");
+    const inputUbicacion = document.getElementById("ubicacionManual");
+    const form = selectUbicacion.closest("form");
+
+    selectUbicacion.addEventListener("change", () => {
+        if (selectUbicacion.value === "OTRA") {
+            inputUbicacion.classList.remove("d-none");
+            inputUbicacion.name = "Ubicacion";
+        } else {
+            inputUbicacion.classList.add("d-none");
+            inputUbicacion.name = "";
+        }
+    });
+
+    form.addEventListener("submit", () => {
+        if (selectUbicacion.value === "OTRA") {
+            // 🔥 ESTA LÍNEA ES LA CLAVE FINAL
+            selectUbicacion.disabled = true;
+        }
+    });
+</script>
+
+
+</form>

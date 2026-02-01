@@ -1,0 +1,26 @@
+@model ProyectoVentas.Models.Venta
+
+<h1>Eliminar Venta</h1>
+
+<h5>¿Estás seguro de que deseas eliminar esta venta?</h5>
+
+<hr />
+
+<div>
+    <strong>Artículo:</strong> @Model.Articulo <br />
+    <strong>Precio:</strong> @Model.PrecioVenta <br />
+    <strong>Cliente:</strong> @Model.Cliente
+</div>
+
+<form asp-action="Delete" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">
+        Sí, eliminar
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancelar
+    </a>
+</form>

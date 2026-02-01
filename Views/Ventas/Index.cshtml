@@ -1,0 +1,62 @@
+@model List<ProyectoVentas.Models.Venta>
+
+<h1>Lista de Ventas</h1>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Artículo</th>
+                <th>Fecha</th>
+                <th>Facebook</th>
+                <th>Precio</th>
+                <th>Inversión</th>
+                <th>Ganancia</th>
+                <th>Ubicación</th>
+                <th>Cliente</th>
+                <th>Comentario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var venta in Model)
+            {
+                <tr>
+                    <td>@venta.Id</td>
+                    <td>@venta.Articulo</td>
+                    <td>@(venta.FechaVenta?.ToString("dd/MM/yyyy") ?? "")</td>
+                    <td>@venta.Facebook</td>
+                    <td>@(venta.PrecioVenta?.ToString("C") ?? "")</td>
+                    <td>@(venta.Inversion?.ToString("C") ?? "")</td>
+                    <td>@venta.GananciaIndividual.ToString("C")</td>
+                    <td>@venta.Ubicacion</td>
+                    <td>@venta.Cliente</td>
+                    <td>@(string.IsNullOrWhiteSpace(venta.Comentario) ? "—" : venta.Comentario)</td>
+                    <td>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit"
+                        asp-route-id="@venta.Id"
+                        class="btn btn-sm btn-warning">
+                            Editar
+                        </a>
+
+                        <a asp-action="Delete"
+                        asp-route-id="@venta.Id"
+                        class="btn btn-sm btn-danger">
+                            Eliminar
+                        </a>
+                    </div>
+                    </td>
+
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay ventas registradas.</p>
+}
