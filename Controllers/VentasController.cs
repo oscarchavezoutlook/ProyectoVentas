@@ -46,12 +46,28 @@ namespace ProyectoVentas.Controllers
         }*/
 
         // SEGUNDA VERSION USANDO ASINCRONO POR ESCALABILIDAD FUTURA Y MEJOR IMPLEMENTACION 
-        public async Task<IActionResult> Index()
-        {
-            var ventas = await _context.Ventas.ToListAsync();
-            return View(ventas);
-        }
+     public async Task<IActionResult> Index()
+{
+    var ventas = await _context.Ventas.ToListAsync();
 
+    var hoy = DateTime.Today;
+    decimal metaDiaria = 3500m;
+
+    decimal gananciaHoy = ventas
+        .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == hoy)
+        .Sum(v => v.PrecioVenta - v.Inversion) ?? 0m;
+
+    decimal progreso = metaDiaria == 0
+        ? 0
+        : Math.Min((gananciaHoy / metaDiaria) * 100, 100);
+
+    ViewBag.GananciaHoy = gananciaHoy;
+    ViewBag.MetaDiaria = metaDiaria;
+    ViewBag.FaltaParaMeta = metaDiaria - gananciaHoy;
+    ViewBag.Progreso = progreso;
+
+    return View(ventas);
+}
 
 
 
