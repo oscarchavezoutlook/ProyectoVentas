@@ -63,7 +63,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
+                @* <th>Id</th> *@
                 <th>Artículo</th>
                 <th>Fecha</th>
                 <th>Facebook</th>
@@ -80,7 +80,7 @@
             @foreach (var venta in Model)
             {
                 <tr>
-                    <td>@venta.Id</td>
+                    @* <td>@venta.Id</td> *@
                     <td>@venta.Articulo</td>
                     <td>@(venta.FechaVenta?.ToString("dd/MM/yyyy") ?? "")</td>
                     <td>@venta.Facebook</td>
