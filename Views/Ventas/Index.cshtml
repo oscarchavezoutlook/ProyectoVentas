@@ -1,5 +1,61 @@
 @model List<ProyectoVentas.Models.Venta>
 
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Ganancia hoy</h6>
+                <h3 class="text-success">
+                    $@ViewBag.GananciaHoy
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Meta diaria</h6>
+                <h3>
+                    $@ViewBag.MetaDiaria
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Falta para meta</h6>
+                <h3 class="text-warning">
+                    $@ViewBag.FaltaParaMeta
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted text-center">Progreso</h6>
+
+                <div class="progress mt-2" style="height: 20px;">
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: @ViewBag.Progreso%;"
+                         aria-valuenow="@ViewBag.Progreso"
+                         aria-valuemin="0"
+                         aria-valuemax="100">
+                        @ViewBag.Progreso%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <h1>Lista de Ventas</h1>
 
 @if (Model != null && Model.Count > 0)
