@@ -10,9 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 // 🔴 MVC con Vistas (OBLIGATORIO)
 builder.Services.AddControllersWithViews();
 
-//“Oye, voy a usar SQLite y esta es mi base”.   ventas.db será un archivo físico en el proyecto.
+// 🔹 RUTA ABSOLUTA PARA SQLITE
+var dbPath = Path.Combine(AppContext.BaseDirectory, "ventas.db");
+
+// 🔹 REGISTRO DEL CONTEXT
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite("Data Source=ventas.db"));
+    options.UseSqlite($"Data Source={dbPath}")
+);
+
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
