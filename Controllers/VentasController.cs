@@ -4,7 +4,6 @@ using ProyectoVentas.Data; // ajusta si tu namespace es otro
 using Microsoft.EntityFrameworkCore;/// en mi caso agregado para que funcinen los metodos asyncronos
 using ProyectoVentas.Helpers; // mis catalogos estan aqui
 
-
 namespace ProyectoVentas.Controllers
 {
     public class VentasController : Controller
@@ -20,9 +19,7 @@ namespace ProyectoVentas.Controllers
 
 
 
-
-
-                                                            /* PIMERA VERSION DE MI METODO INDEX EN APARTADO VENTAS
+                                                            /* PRIMERA VERSION DE MI METODO INDEX EN APARTADO VENTAS
        public IActionResult Index()
         {
                        //var ventas = new List<Venta>
