@@ -16,7 +16,7 @@ namespace ProyectoVentas.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var ventas = await _context.Ventas.ToListAsync();
+            /*var ventas = await _context.Ventas.ToListAsync();
 
             var hoy = DateOnly.FromDateTime(DateTime.Now);
             decimal metaDiaria = 3500m;
@@ -41,7 +41,7 @@ namespace ProyectoVentas.Controllers
                             DateOnly.FromDateTime(v.FechaVenta.Value) == hoy)
                 .OrderByDescending(v => v.Id)
                 .Take(5)
-                .ToList();
+                .ToList();*/
 
             return View();
         }
