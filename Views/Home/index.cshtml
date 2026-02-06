@@ -1,0 +1,122 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container mt-3">
+
+    <!-- 🔹 ACCIÓN PRINCIPAL -->
+    <div class="d-grid mb-4">
+        <a asp-controller="Ventas"
+           asp-action="Create"
+           class="btn btn-primary btn-lg">
+            ➕ Registrar venta
+        </a>
+    </div>
+
+    <!-- 🔹 RESUMEN DEL DÍA -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Ganancia hoy</small>
+                    <h4 class="text-success">
+                        $@ViewBag.GananciaHoy
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Meta diaria</small>
+                    <h4>
+                        $@ViewBag.MetaDiaria
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Falta</small>
+                    <h4 class="text-warning">
+                        $@ViewBag.FaltaParaMeta
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted d-block text-center">
+                        Progreso
+                    </small>
+
+                    <div class="progress mt-2" style="height: 20px;">
+                        <div class="progress-bar bg-success"
+                             style="width: @ViewBag.Progreso%">
+                            @ViewBag.Progreso%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 🔹 VENTAS DE HOY -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <strong>Ventas de hoy</strong>
+        </div>
+
+        <div class="card-body p-0">
+            @if (ViewBag.VentasHoy == null || ViewBag.VentasHoy.Count == 0)
+            {
+                <div class="p-3 text-muted text-center">
+                    No hay ventas registradas hoy
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Artículo</th>
+                                <th>Ganancia</th>
+                                <th>Ubicación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var venta in ViewBag.VentasHoy)
+                            {
+                                <tr>
+                                    <td>@venta.Articulo</td>
+                                    <td class="text-success">
+                                        $@(venta.PrecioVenta - venta.Inversion)
+                                    </td>
+                                    <td>@venta.Ubicacion</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- 🔹 ACCESO AL HISTORIAL -->
+    <div class="text-center">
+        <a asp-controller="Ventas"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Ver historial completo
+        </a>
+    </div>
+
+</div>

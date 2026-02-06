@@ -1,15 +1,49 @@
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProyectoVentas.Data;
 using ProyectoVentas.Models;
 
 namespace ProyectoVentas.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
         {
-            var ventas = new List<Venta>(); // por ahora vacío
-            return View(ventas);
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var ventas = await _context.Ventas.ToListAsync();
+
+            var hoy = DateOnly.FromDateTime(DateTime.Now);
+            decimal metaDiaria = 3500m;
+
+            decimal gananciaHoy = ventas
+                .Where(v => v.FechaVenta.HasValue &&
+                            DateOnly.FromDateTime(v.FechaVenta.Value) == hoy)
+                .Sum(v => v.PrecioVenta - v.Inversion) ?? 0m;
+
+            decimal progreso = metaDiaria == 0
+                ? 0
+                : Math.Min(Math.Round((gananciaHoy / metaDiaria) * 100, 0), 100);
+
+            ViewBag.GananciaHoy = gananciaHoy;
+            ViewBag.MetaDiaria = metaDiaria;
+            ViewBag.FaltaParaMeta = metaDiaria - gananciaHoy;
+            ViewBag.Progreso = progreso;
+
+            // Ventas del día (máx 5, más recientes)
+            ViewBag.VentasHoy = ventas
+                .Where(v => v.FechaVenta.HasValue &&
+                            DateOnly.FromDateTime(v.FechaVenta.Value) == hoy)
+                .OrderByDescending(v => v.Id)
+                .Take(5)
+                .ToList();
+
+            return View();
         }
     }
 }
