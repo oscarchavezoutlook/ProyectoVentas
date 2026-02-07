@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoVentas.Data;
+using ProyectoVentas.Helpers;
 using ProyectoVentas.Models;
+using static ProyectoVentas.Helpers.DateNowJuarez;
 
 namespace ProyectoVentas.Controllers
 {
@@ -18,7 +20,8 @@ namespace ProyectoVentas.Controllers
         {
             var ventas = await _context.Ventas.ToListAsync();
 
-            var hoy = DateOnly.FromDateTime(DateTime.Now);
+            var hoy = HoyJuarez();
+
             decimal metaDiaria = 3500m;
 
             decimal gananciaHoy = ventas
