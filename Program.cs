@@ -6,35 +6,38 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-// 🔴 LEER DATABASE_URL DE RAILWAY
-var databaseUrl = Environment.GetEnvironmentVariable("postgresql://postgres:AEUhrowHAKrwgsajNDsakFoYAyfvtVyx@postgres.railway.internal:5432/railway");
 
-if (string.IsNullOrEmpty(databaseUrl))
+using Npgsql;
+
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+if (!string.IsNullOrEmpty(databaseUrl))
 {
-    throw new Exception("DATABASE_URL no está configurada.");
+    // Railway → PostgreSQL
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+
+    var connectionString = new NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Port = uri.Port,
+        Username = userInfo[0],
+        Password = userInfo[1],
+        Database = uri.AbsolutePath.Trim('/'),
+        SslMode = SslMode.Require
+    }.ToString();
+
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    // Fallback (permite iniciar el servidor)
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlite("Data Source=ventas.db"));
 }
 
-// 🔹 CONVERTIR DATABASE_URL A CONNECTION STRING REAL
-var uri = new Uri(databaseUrl);
-var userInfo = uri.UserInfo.Split(':');
 
-var connectionStringBuilder = new NpgsqlConnectionStringBuilder
-{
-    Host = uri.Host,
-    Port = uri.Port,
-    Username = userInfo[0],
-    Password = userInfo[1],
-    Database = uri.AbsolutePath.Trim('/'),
-    SslMode = SslMode.Require,
-  //  TrustServerCertificate = true
-};
-
-var connectionString = connectionStringBuilder.ConnectionString;
-
-// 🔹 REGISTRAR DB CONTEXT
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString)
-);
 
 var app = builder.Build();
 
@@ -44,6 +47,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
 }
+
 
 if (!app.Environment.IsDevelopment())
 {
