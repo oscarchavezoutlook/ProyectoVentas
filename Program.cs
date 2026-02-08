@@ -6,13 +6,27 @@ var builder = WebApplication.CreateBuilder(args);
 // 🔹 MVC con vistas
 builder.Services.AddControllersWithViews();
 
-// 🔹 Ruta absoluta y segura para SQLite
-var dbPath = Path.Combine(AppContext.BaseDirectory, "ventas.db");
-
-// 🔹 Registrar DbContext
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+?? Environment.GetEnvironmentVariable("postgresql://postgres:AEUhrowHAKrwgsajNDsakFoYAyfvtVyx@postgres.railway.internal:5432/railway");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}")
+    options.UseNpgsql(connectionString)
 );
+
+
+
+
+
+
+
+
+
+// // 🔹 Ruta absoluta y segura para SQLite
+// var dbPath = Path.Combine(AppContext.BaseDirectory, "ventas.db");
+
+// // 🔹 Registrar DbContext
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlite($"Data Source={dbPath}")
+// );
 
 var app = builder.Build();
 
