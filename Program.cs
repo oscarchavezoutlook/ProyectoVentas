@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // 🔴 LEER DATABASE_URL DE RAILWAY
-var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+var databaseUrl = Environment.GetEnvironmentVariable("postgresql://postgres:AEUhrowHAKrwgsajNDsakFoYAyfvtVyx@postgres.railway.internal:5432/railway");
 
 if (string.IsNullOrEmpty(databaseUrl))
 {
