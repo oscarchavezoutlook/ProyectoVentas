@@ -18,11 +18,15 @@ namespace ProyectoVentas.Controllers
 
         public async Task<IActionResult> Index()
         {
+
+            try{
+
             var ventas = await _context.Ventas.ToListAsync();
 
             var hoy = HoyJuarez();
-
+    
             decimal metaDiaria = 3500m;
+            metaDiaria=1;
 
             decimal gananciaHoy = ventas
                 .Where(v => v.FechaVenta.HasValue &&
@@ -45,8 +49,18 @@ namespace ProyectoVentas.Controllers
                 .OrderByDescending(v => v.Id)
                 .Take(5)
                 .ToList();
-
+//hi
             return View();
+
+            }
+
+
+
+             catch (Exception ex)
+    {
+        // 🔥 Si hay error en DB, lo verás en pantalla
+        return Content("ERROR DB: " + ex.Message);
+    }
         }
     }
 }
