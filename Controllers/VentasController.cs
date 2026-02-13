@@ -51,6 +51,27 @@ namespace ProyectoVentas.Controllers
 
     decimal metaDiaria = 3500m;
 
+    // 🔹 Calcular inicio de semana (lunes)
+int diff = (7 + (DateTime.Now.DayOfWeek - DayOfWeek.Monday)) % 7;
+DateOnly inicioSemana = hoy.AddDays(-diff);
+
+
+decimal gananciaSemana = ventas
+    .Where(v =>
+        v.FechaVenta.HasValue &&
+        DateOnly.FromDateTime(v.FechaVenta.Value) >= inicioSemana &&
+        DateOnly.FromDateTime(v.FechaVenta.Value) <= hoy
+    )
+    .Sum(v => v.PrecioVenta - v.Inversion) ?? 0m;
+
+
+
+
+
+
+
+
+
    decimal gananciaHoy = ventas
     .Where(v => v.FechaVenta.HasValue &&
                 DateOnly.FromDateTime(v.FechaVenta.Value) == hoy)
@@ -105,6 +126,9 @@ namespace ProyectoVentas.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Venta venta)
         {
+
+
+            try{
             if (!ModelState.IsValid)
             {
                 // 🔴 volver a cargar catálogos
@@ -116,7 +140,12 @@ namespace ProyectoVentas.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-            
+
+            }
+            catch (Exception ex)
+            {
+                return Content("ERROR AL GUARDAR: " + ex.Message);
+            }
         }
 
 
