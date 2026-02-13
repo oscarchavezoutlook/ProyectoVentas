@@ -141,7 +141,14 @@ decimal gananciaSemana = ventas
             }
             catch (Exception ex)
             {
-                return Content("ERROR completo " + ex.Message);
+                 var error = ex.Message;
+
+    if (ex.InnerException != null)
+    {
+        error += " | INNER: " + ex.InnerException.Message;
+    }
+
+    return Content("ERROR COMPLETO: " + error);
             }
 
 
@@ -150,7 +157,14 @@ decimal gananciaSemana = ventas
             }
             catch (Exception ex)
             {
-                return Content("ERROR AL GUARDAR: " + ex.Message);
+                 var error = ex.Message;
+
+    if (ex.InnerException != null)
+    {
+        error += " | INNER: " + ex.InnerException.Message;
+    }
+
+    return Content("ERROR COMPLETO: " + error);
             }
         }
 
