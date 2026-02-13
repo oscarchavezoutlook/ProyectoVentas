@@ -5,7 +5,7 @@
 namespace ProyectoVentas.Migrations
 {
     /// <inheritdoc />
-    public partial class AjustesModeloVenta : Migration
+    public partial class InitialCreate1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
