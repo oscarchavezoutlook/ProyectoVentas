@@ -135,9 +135,15 @@ decimal gananciaSemana = ventas
                 CargarCatalogos();
                 return View(venta);
             }
-
+            try{
             _context.Ventas.Add(venta);
             _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Content("ERROR completo " + ex.Message);
+            }
+
 
             return RedirectToAction(nameof(Index));
 
