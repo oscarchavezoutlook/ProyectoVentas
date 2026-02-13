@@ -26,7 +26,7 @@ namespace ProyectoVentas.Controllers
             var hoy = HoyJuarez();
     
             decimal metaDiaria = 3500m;
-            metaDiaria=1;
+         
 
             decimal gananciaHoy = ventas
                 .Where(v => v.FechaVenta.HasValue &&
