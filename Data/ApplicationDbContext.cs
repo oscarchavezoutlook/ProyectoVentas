@@ -9,8 +9,9 @@ namespace ProyectoVentas.Data
             : base(options)
         {
         }
-
+ 
         public DbSet<Venta> Ventas { get; set; }
+        public DbSet<VentaPendiente> VentasPendientes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
