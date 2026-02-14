@@ -39,7 +39,7 @@ namespace ProyectoVentas.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("FechaVenta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("Inversion")
                         .HasColumnType("TEXT");

@@ -11,5 +11,14 @@ namespace ProyectoVentas.Data
         }
 
         public DbSet<Venta> Ventas { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Venta>()
+                .Property(v => v.FechaVenta)
+                .HasColumnType("timestamp without time zone");
+        }
     }
 }
