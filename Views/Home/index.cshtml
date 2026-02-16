@@ -110,6 +110,51 @@
         </div>
     </div>
 
+            <h4 class="mt-5">Ventas Pendientes</h4>
+
+<a asp-controller="VentasPendientes"
+   asp-action="Create"
+   class="btn btn-warning mb-3">
+    Nueva Pendiente
+</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Artículo</th>
+            <th>Cliente</th>
+            <th>Ubicación</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in ViewBag.Pendientes)
+        {
+            <tr>
+                <td>@p.Articulo</td>
+                <td>@p.NombreCliente</td>
+                <td>@p.Ubicacion</td>
+                <td>
+                    <a asp-controller="VentasPendientes"
+                       asp-action="Delete"
+                       asp-route-id="@p.Id"
+                       class="btn btn-sm btn-danger">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
     <!-- 🔹 ACCESO AL HISTORIAL -->
     <div class="text-center">
         <a asp-controller="Ventas"
