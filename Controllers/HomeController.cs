@@ -21,6 +21,19 @@ namespace ProyectoVentas.Controllers
 
             try{
 
+                 //////////// por revisar ventas pendientes del dia nueva implmentacion
+
+                     var pendientes = await _context.VentasPendientes
+                    .OrderByDescending(p => p.FechaCreacion)
+                    .ToListAsync();
+                    ViewBag.Pendientes = pendientes;
+                ///////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
             var ventas = await _context.Ventas.ToListAsync();
 
             var hoy = HoyJuarez();
@@ -49,6 +62,11 @@ namespace ProyectoVentas.Controllers
                 .OrderByDescending(v => v.Id)
                 .Take(5)
                 .ToList();
+
+
+
+               
+                /// 
 //hi
             return View();
 

@@ -8,7 +8,7 @@ namespace ProyectoVentas.Models
         public int Id { get; set; }
 
         [Required]
-        public string Articulo { get; set; } = string.Empty;
+        public string Articulo { get; set; } = string.Empty;    
 
         [Required]
         public string NombreCliente { get; set; } = string.Empty;
