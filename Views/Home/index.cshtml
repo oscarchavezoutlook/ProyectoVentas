@@ -110,7 +110,7 @@
         </div>
     </div>
 
-            @* <h4 class="mt-5">Ventas Pendientes</h4>
+            <h4 class="mt-5">Ventas Pendientes</h4>
 
 <a asp-controller="VentasPendientes"
    asp-action="Create"
@@ -132,20 +132,21 @@
         {
             <tr>
                 <td>@p.Articulo</td>
-                <td>@p.NombreCliente</td>
+                <td>@p.Cliente</td>
                 <td>@p.Ubicacion</td>
                 <td>
-                    <a asp-controller="VentasPendientes"
-                       asp-action="Delete"
-                       asp-route-id="@p.Id"
-                       class="btn btn-sm btn-danger">
-                        Eliminar
-                    </a>
+                         <form asp-controller="VentasPendientes"
+                        asp-action="Delete"
+                        method="post"
+                        style="display:inline;">
+                        <input type="hidden" name="id" value="@p.Id" />
+                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                        </form>
                 </td>
             </tr>
         }
     </tbody>
-</table> *@
+</table>
 
 
 
