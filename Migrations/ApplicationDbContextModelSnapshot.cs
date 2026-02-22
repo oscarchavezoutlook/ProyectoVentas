@@ -55,6 +55,32 @@ namespace ProyectoVentas.Migrations
 
                     b.ToTable("Ventas");
                 });
+
+            modelBuilder.Entity("ProyectoVentas.Models.VentaPendiente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Articulo")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NombreCliente")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Ubicacion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VentasPendientes");
+                });
 #pragma warning restore 612, 618
         }
     }
