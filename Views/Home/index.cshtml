@@ -164,3 +164,109 @@
     </div>
 
 </div>
+
+
+<!-- 
+MODAL DE BOOTSTRAP
+- fade: animación al abrir/cerrar
+- id="modalPendiente": identificador para abrir el modal desde un botón
+- tabindex="-1": evita que se enfoque automáticamente
+-->
+<div class="modal fade" id="modalPendiente" tabindex="-1">
+
+    <!-- 
+    modal-dialog-centered:
+    centra el modal verticalmente en la pantalla
+    -->
+    <div class="modal-dialog modal-dialog-centered">
+
+        <!-- 
+        modal-content:
+        contenedor principal del modal
+        -->
+        <div class="modal-content">
+
+            <!-- ================= HEADER ================= -->
+            <div class="modal-header">
+
+                <!-- Título del modal -->
+                <h5 class="modal-title">Venta Pendiente</h5>
+
+                <!-- 
+                Botón X para cerrar el modal
+                data-bs-dismiss="modal" es CLAVE para Bootstrap 5
+                -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+            </div>
+
+            <!-- ================= FORMULARIO ================= -->
+            <!-- 
+            asp-controller="VentasPendientes":
+            apunta al controlador VentasPendientesController
+
+            asp-action="Create":
+            ejecuta el método Create (POST)
+
+            method="post":
+            envía los datos de forma segura
+            -->
+            <form asp-controller="VentasPendientes" asp-action="Create" method="post">
+
+                <div class="modal-body">
+
+                    <!-- ===== CAMPO ARTÍCULO ===== -->
+                    <div class="mb-3">
+                        <label class="form-label">Artículo</label>
+
+                        <!-- 
+                        name="Articulo":
+                        DEBE coincidir con la propiedad del modelo o parámetro del controller
+                        -->
+                        <input name="Articulo" class="form-control" required />
+                    </div>
+
+                    <!-- ===== CAMPO CLIENTE ===== -->
+                    <div class="mb-3">
+                        <label class="form-label">Cliente</label>
+
+                        <!-- 
+                        name="NombreCliente":
+                        debe llamarse igual que en el modelo
+                        -->
+                        <input name="NombreCliente" class="form-control" required />
+                    </div>
+
+                    <!-- ===== CAMPO UBICACIÓN ===== -->
+                    <div class="mb-3">
+                        <label class="form-label">Ubicación</label>
+
+                        <input name="Ubicacion" class="form-control" required />
+                    </div>
+
+                </div>
+
+                <!-- ================= FOOTER ================= -->
+                <div class="modal-footer">
+
+                    <!-- 
+                    type="submit":
+                    envía el formulario al controller
+                    -->
+                    <button type="submit" class="btn btn-success">
+                        Guardar
+                    </button>
+
+                    <!-- 
+                    Cierra el modal sin guardar
+                    -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
