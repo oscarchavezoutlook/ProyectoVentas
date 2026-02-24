@@ -3,6 +3,7 @@ using ProyectoVentas.Models;
 using ProyectoVentas.Data; // ajusta si tu namespace es otro
 using Microsoft.EntityFrameworkCore;/// en mi caso agregado para que funcinen los metodos asyncronos
 using ProyectoVentas.Helpers; // mis catalogos estan aqui
+using static ProyectoVentas.Helpers.DateNowJuarez;
 
 namespace ProyectoVentas.Controllers
 {
@@ -47,7 +48,7 @@ namespace ProyectoVentas.Controllers
 {
     var ventas = await _context.Ventas.ToListAsync();
 
-    var hoy = DateOnly.FromDateTime(DateTime.Now);
+    var hoy = HoyJuarez();
 
     decimal metaDiaria = 3500m;
 
