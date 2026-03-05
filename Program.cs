@@ -24,7 +24,10 @@ if (!string.IsNullOrEmpty(databaseUrl))
     }.ToString();
 
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseNpgsql(connectionString));
+    options.UseNpgsql(connectionString)
+           .ConfigureWarnings(w => 
+               w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
+  
 }
 else
 {
@@ -41,7 +44,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    //db.Database.Migrate();
+   
    db.Database.Migrate();
 }
 
@@ -49,7 +52,10 @@ using (var scope = app.Services.CreateScope())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+  
 }
+
+  app.UseDeveloperExceptionPage();
 
 app.UseStaticFiles();
 app.UseRouting();
