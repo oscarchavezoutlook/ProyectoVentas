@@ -1,7 +1,23 @@
-@* @model List<ProyectoVentas.Models.Venta>
+@model List<ProyectoVentas.Models.Venta>
 
+@{
+    ViewData["Title"] = "Métricas";
+}
 
+<div class="container">
 
-<p>Total ventas: @Model.Count</p> *@
+<h2 class="mb-4">📊 Métricas de ventas</h2>
 
-<h2>Metricas funcionando</h2>
+<div class="card">
+    <div class="card-body">
+
+        <h5>Total de ventas registradas</h5>
+
+        <h3 class="text-success">
+            @Model.Count
+        </h3>
+
+    </div>
+</div>
+
+</div>
