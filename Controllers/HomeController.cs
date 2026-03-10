@@ -30,10 +30,6 @@ namespace ProyectoVentas.Controllers
                 ///////////////////////////////////////////////////////////////////////
 
 
-
-
-
-
             var ventas = await _context.Ventas.ToListAsync();
 
             var hoy = HoyJuarez();

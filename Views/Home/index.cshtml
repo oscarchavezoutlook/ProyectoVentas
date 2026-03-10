@@ -1,51 +1,278 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Para Valeria</title>
-
-<style>
-body{
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 150px;
-    background-color: #ffffff;
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-.mensaje{
-    font-size: 24px;
-    max-width: 600px;
-    margin: auto;
-    line-height: 1.6;
-}
+<div class="container mt-3">
 
-.firma{
-    margin-top: 40px;
-    font-size: 20px;
-    font-style: italic;
-}
-</style>
+    <!-- 🔹 ACCIÓN PRINCIPAL -->
+    <div class="d-grid mb-4">
+        <a asp-controller="Ventas"
+           asp-action="Create"
+           class="btn btn-primary btn-lg">
+            ➕ Registrar venta
+        </a>
+    </div>
 
-</head>
+    <!-- 🔹 RESUMEN DEL DÍA -->
+    <div class="row g-3 mb-4">
 
-<body>
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Ganancia hoy</small>
+                    <h4 class="text-success">
+                        $@ViewBag.GananciaHoy
+                    </h4>
+                </div>
+            </div>
+        </div>
 
-<div class="mensaje">
-<p>Valeria,</p>
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Meta diaria</small>
+                    <h4>
+                        $@ViewBag.MetaDiaria
+                    </h4>
+                </div>
+            </div>
+        </div>
 
-<p>
-Valeria ❤️
-Pienso mucho en ti ✨
-Espero verte pronto 💖
-chale :,/
-</p>
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Falta</small>
+                    <h4 class="text-warning">
+                        $@ViewBag.FaltaParaMeta
+                    </h4>
+                </div>
+            </div>
+        </div>
 
-<p>
-Con cariño,<br>
-Issac
-</p>
+        <div class="col-6 col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted d-block text-center">
+                        Progreso
+                    </small>
+
+                    <div class="progress mt-2" style="height: 20px;">
+                        <div class="progress-bar bg-success"
+                             style="width: @ViewBag.Progreso%">
+                            @ViewBag.Progreso%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 🔹 VENTAS DE HOY -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <strong>Ventas de hoy</strong>
+        </div>
+
+        <div class="card-body p-0">
+            @if (ViewBag.VentasHoy == null || ViewBag.VentasHoy.Count == 0)
+            {
+                <div class="p-3 text-muted text-center">
+                    No hay ventas registradas hoy
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th >Artículo</th>
+                                <th>Ganancia</th>
+                                <th>Ubicación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var venta in ViewBag.VentasHoy)
+                            {
+                                <tr>
+                                    <td>@venta.Articulo</td>
+                                    <td class="text-success">
+                                        $@(venta.PrecioVenta - venta.Inversion)
+                                    </td>
+                                    <td>@venta.Ubicacion</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+            @* <h4 class="mt-5">Ventas Pendientes</h4> *@
+
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Artículo</th>
+            <th>Cliente</th>
+            <th>Ubicación</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in ViewBag.Pendientes)
+        {
+            <tr>
+                <td>@p.Articulo</td>
+                <td>@p.NombreCliente</td>
+                <td>@p.Ubicacion</td>
+                <td>
+                         <form asp-controller="VentasPendientes"
+                        asp-action="Delete"
+                        method="post"
+                        style="display:inline;">
+                        <input type="hidden" name="id" value="@p.Id" />
+                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                        </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-warning btn-lg shadow-sm w-100" data-bs-toggle="modal" data-bs-target="#modalPendiente">
+   ➕ Nueva Venta Pendiente
+</button>
+
+
+
+
+
+
+
+    <!-- 🔹 ACCESO AL HISTORIAL -->
+    <div class="mt-5 pt-4 border-top text-center">
+        <a asp-controller="Ventas"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Ver historial completo
+       </a>
+
+        <a  asp-controller="Metricas"
+            asp-action="Index"
+            class="btn btn-outline-secondary">
+            📊 Ver Métricas
+        </a>
+    </div>
 
 </div>
 
-</body>
-</html>
+
+<!-- 
+MODAL DE BOOTSTRAP
+- fade: animación al abrir/cerrar
+- id="modalPendiente": identificador para abrir el modal desde un botón
+- tabindex="-1": evita que se enfoque automáticamente
+-->
+<div class="modal fade" id="modalPendiente" tabindex="-1">
+
+    <!-- 
+    modal-dialog-centered:
+    centra el modal verticalmente en la pantalla
+    -->
+    <div class="modal-dialog modal-dialog-centered">
+
+        <!-- 
+        modal-content:
+        contenedor principal del modal
+        -->
+        <div class="modal-content">
+
+            <!-- ================= HEADER ================= -->
+            <div class="modal-header">
+
+                <!-- Título del modal -->
+                <h5 class="modal-title">Venta Pendiente</h5>
+
+                <!-- 
+                Botón X para cerrar el modal
+                data-bs-dismiss="modal" es CLAVE para Bootstrap 5
+                -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+            </div>
+
+            <!-- ================= FORMULARIO ================= -->
+            <!-- 
+            asp-controller="VentasPendientes":
+            apunta al controlador VentasPendientesController
+
+            asp-action="Create":
+            ejecuta el método Create (POST)
+
+            method="post":
+            envía los datos de forma segura
+            -->
+            <form asp-controller="VentasPendientes" asp-action="Create" method="post">
+
+                <div class="modal-body">
+
+                    <!-- ===== CAMPO ARTÍCULO ===== -->
+                    <div class="mb-3">
+                        <label class="form-label">Artículo</label>
+
+                        <!-- 
+                        name="Articulo":
+                        DEBE coincidir con la propiedad del modelo o parámetro del controller
+                        -->
+                        <input name="Articulo" class="form-control" required />
+                    </div>
+
+                    <!-- ===== CAMPO CLIENTE ===== -->
+                    <div class="mb-3">
+                        <label class="form-label">Cliente</label>
+
+                        <!-- 
+                        name="NombreCliente":
+                        debe llamarse igual que en el modelo
+                        -->
+                        <input name="NombreCliente" class="form-control" required />
+                    </div>
+
+                    <!-- ===== CAMPO UBICACIÓN ===== -->
+                    <div class="mb-3">
+                        <label class="form-label">Ubicación</label>
+
+                        <input name="Ubicacion" class="form-control" required />
+                    </div>
+
+                </div>
+
+                <!-- ================= FOOTER ================= -->
+                <div class="modal-footer">
+
+                    <!-- 
+                    type="submit":
+                    envía el formulario al controller
+                    -->
+                    <button type="submit" class="btn btn-success">
+                        Guardar
+                    </button>
+
+                    <!-- 
+                    Cierra el modal sin guardar
+                    -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
